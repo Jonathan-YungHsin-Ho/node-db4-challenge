@@ -16,10 +16,18 @@ router.get('/', (req, res) => {
     });
 });
 
-// GET /api/recipes/:id/shoppingList endpoint -
+// GET /api/recipes/:id/shoppingList endpoint - FUNCTIONAL
 router.get('/:id/shoppingList', (req, res) => {
   Recipes.getShoppingList(req.params.id)
-    .then()
+    .then(ingredients => {
+      if (ingredients.length) {
+        res.status(200).json(ingredients);
+      } else {
+        res
+          .status(400)
+          .json({ message: 'Could not find ingredients for that recipe' });
+      }
+    })
     .catch(err => {
       console.log(err);
       res
