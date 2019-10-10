@@ -14,14 +14,10 @@ exports.up = function(knex) {
         .string('name', 128)
         .notNullable()
         .unique();
-      tbl.float('quantity').notNullable();
     })
     .createTable('instructions', tbl => {
       tbl.increments();
-      tbl
-        .integer('step_number')
-        .notNullable()
-        .unique();
+      tbl.integer('step_number').notNullable();
       tbl.string('instruction', 255).notNullable();
       tbl
         .integer('recipe_id')
@@ -50,6 +46,7 @@ exports.up = function(knex) {
         .inTable('ingredients')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
+      tbl.float('ingredient_quantity').notNullable();
       tbl.unique(['recipe_id', 'ingredient_id']);
     });
 };
